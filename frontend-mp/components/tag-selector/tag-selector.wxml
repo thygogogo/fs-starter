@@ -1,0 +1,40 @@
+<view class="tag-selector">
+  <view class="tag-header" wx:if="{{title}}">
+    <text class="tag-title">{{title}}</text>
+  </view>
+  <view class="tag-list">
+    <view
+      wx:for="{{presetTags}}"
+      wx:key="tag"
+      class="tag-item {{item.active ? 'active' : ''}}"
+      data-tag="{{item.tag}}"
+      bindtap="onTagTap"
+    >
+      <text>{{item.tag}}</text>
+    </view>
+    <view
+      wx:for="{{customTags}}"
+      wx:key="tag"
+      class="tag-item active custom"
+      data-tag="{{item.tag}}"
+      bindtap="onTagTap"
+    >
+      <text>{{item.tag}}</text>
+    </view>
+    <view class="tag-item add-btn" bindtap="toggleCustomInput">
+      <text>+ 自定义</text>
+    </view>
+  </view>
+  <view class="custom-row" wx:if="{{showCustomInput}}">
+    <input
+      class="custom-input"
+      placeholder="输入自定义标签"
+      value="{{customInput}}"
+      bindinput="onCustomInput"
+      confirm-type="done"
+      bindconfirm="addCustomTag"
+      focus="{{showCustomInput}}"
+    />
+    <view class="custom-add" bindtap="addCustomTag">添加</view>
+  </view>
+</view>

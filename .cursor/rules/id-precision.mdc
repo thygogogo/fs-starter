@@ -1,0 +1,41 @@
+---
+description: 前后端 Long/雪花 ID 精度：前端禁止 Number 转换，统一按字符串处理
+alwaysApply: true
+---
+
+# ID 精度（雪花 ID / Long）
+
+后端实体主键为 `Long`（MyBatis-Plus 雪花 ID），Jackson 已配置 `ToStringSerializer`，API JSON 中 **id 为字符串**。
+
+JavaScript `Number` 最大安全整数为 `2^53-1`（约 16 位），雪花 ID 常为 19 位，**`Number(id)` 会丢精度**，导致编辑/删除/查询错记录。
+
+## 前端（TypeScript / Vue）
+
+- ID 类型用 `string` 或 `number | string`，**不要**仅用 `number`
+- **禁止** `Number(route.params.id)`、`parseInt(id)`、`+id` 处理业务主键
+- 编辑/提交：从详情接口取 `String(record.id)` 保存，提交时原样传字符串
+- 路由参数：仅作请求 key 用 `route.params.id as string`；**不要**从 URL 参数转 number 再提交
+- API 路径与 query：`/admin/xxx/${id}` 直接拼字符串
+- 列表跳转：`router.push(\`/path/${row.id}\`)`，`row.id` 保持字符串
+
+```typescript
+// ❌ BAD
+{ id: Number(route.params.id) }
+const id: number = res.data.id
+
+// ✅ GOOD
+const personId = ref('')
+personId.value = String(p.data.id)
+{ id: personId.value }
+function getDetailApi(id: number | string) { ... }
+```
+
+## 后端（Java）
+
+- 入参/出参主键保持 `Long`，无需为前端改类型
+- 新增 `@PathVariable Long id`、`@RequestBody` 中带 `id` 的 DTO 时，确保 Jackson 反序列化字符串为 Long（默认支持）
+- 单元测试/文档示例避免写超过 `9007199254740991` 的 JSON 数字字面量
+
+## 自检
+
+改涉及 id 的代码后确认：全链路无 `Number(` / `parseInt` 作用于业务 id，且 TypeScript 类型未把 id 窄化为 `number`。

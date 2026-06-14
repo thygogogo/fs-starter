@@ -1,0 +1,66 @@
+.tag-selector {
+  margin-bottom: 8rpx;
+}
+
+.tag-header {
+  margin-bottom: 16rpx;
+}
+
+.tag-title {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.tag-item {
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  background: #f5f5f5;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+}
+
+.tag-item.active {
+  background: rgba(255, 107, 53, 0.1);
+  color: #ff6b35;
+  border-color: #ff6b35;
+}
+
+.tag-item.add-btn {
+  background: #fff;
+  border: 2rpx dashed #ccc;
+  color: #999;
+}
+
+.custom-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.custom-input {
+  flex: 1;
+  height: 72rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+}
+
+.custom-add {
+  flex-shrink: 0;
+  padding: 0 28rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  background: #ff6b35;
+  color: #fff;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}

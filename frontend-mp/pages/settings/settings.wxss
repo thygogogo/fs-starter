@@ -1,0 +1,53 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-top: 20rpx;
+}
+
+.settings-list {
+  background: #fff;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 40rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.item-label {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.item-value {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.item-text {
+  font-size: 28rpx;
+  color: #666;
+  max-width: 400rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #f5f5f5;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 32rpx;
+}

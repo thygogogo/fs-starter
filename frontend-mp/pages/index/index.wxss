@@ -1,0 +1,27 @@
+.page {
+  padding: 48rpx 32rpx;
+  background: #f8fafc;
+}
+
+.hero {
+  margin-top: 120rpx;
+  padding: 48rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 32rpx rgba(15, 23, 42, 0.06);
+}
+
+.title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #64748b;
+  line-height: 1.6;
+}

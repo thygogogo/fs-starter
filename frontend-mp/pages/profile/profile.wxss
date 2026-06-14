@@ -1,0 +1,83 @@
+.page {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.user-section {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  padding: 48rpx 32rpx 64rpx;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.username {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.user-id,
+.register-time {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.menu-section {
+  margin: -32rpx 24rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.06);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f1f5f9;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #334155;
+}
+
+.arrow {
+  color: #94a3b8;
+  font-size: 36rpx;
+}
+
+.logout-section {
+  margin: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  text-align: center;
+}
+
+.logout-text {
+  color: #ef4444;
+  font-size: 30rpx;
+}

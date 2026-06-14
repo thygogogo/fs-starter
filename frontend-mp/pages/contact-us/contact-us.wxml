@@ -1,0 +1,78 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">联系我们</text>
+    <text class="header-subtitle">欢迎通过以下方式与我们取得联系</text>
+  </view>
+
+  <view class="content">
+    <!-- 联系电话 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-icon">📞</text>
+        <text class="card-title">联系电话</text>
+      </view>
+      <view class="card-body">
+        <text class="card-value phone">{{phone}}</text>
+        <text class="card-tip">工作日 09:00 - 18:00 接听</text>
+      </view>
+      <view class="card-action primary" bindtap="onCallPhone">
+        <text class="action-text">立即拨打</text>
+      </view>
+    </view>
+
+    <!-- 电子邮箱 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-icon">✉️</text>
+        <text class="card-title">电子邮箱</text>
+      </view>
+      <view class="card-body">
+        <text class="card-value">{{email}}</text>
+        <text class="card-tip">发送邮件，我们会在 1-2 个工作日内回复</text>
+      </view>
+      <view class="card-action" bindtap="onCopyEmail">
+        <text class="action-text">复制邮箱</text>
+      </view>
+    </view>
+
+    <!-- 联系地址 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-icon">📍</text>
+        <text class="card-title">联系地址</text>
+      </view>
+      <view class="card-body">
+        <text class="card-value address">{{address}}</text>
+      </view>
+      <view class="card-action" bindtap="onCopyAddress">
+        <text class="action-text">复制地址</text>
+      </view>
+    </view>
+
+    <!-- 微信公众号 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-icon">📱</text>
+        <text class="card-title">微信公众号</text>
+      </view>
+      <view class="card-body">
+        <view class="info-row">
+          <text class="info-label">名称</text>
+          <text class="info-value">{{officialAccount.name}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">微信号</text>
+          <text class="info-value">{{officialAccount.id}}</text>
+        </view>
+        <text class="card-tip official-tip">{{officialAccount.tip}}</text>
+      </view>
+      <view class="card-action" bindtap="onCopyOfficialAccount">
+        <text class="action-text">复制公众号名称</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-tip">
+    <text>以上信息仅供演示，实际以平台公布为准</text>
+  </view>
+</view>
