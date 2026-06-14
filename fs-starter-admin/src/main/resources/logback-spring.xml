@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
 
-    <property name="LOG_HOME" value="./logs/soldier-admin"/>
-    <property name="APP_NAME" value="soldier-admin"/>
+    <property name="LOG_HOME" value="./logs/fs-starter-admin"/>
+    <property name="APP_NAME" value="fs-starter-admin"/>
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{traceId:-}] %logger{50} - %msg%n"/>
 
     <!-- 控制台输出 -->

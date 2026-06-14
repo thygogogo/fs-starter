@@ -7,10 +7,10 @@ source "$SCRIPT_DIR/config.sh"
 echo ">>> 部署环境: $DEPLOY_ENV ($SERVER, spring.profiles.active=$SPRING_PROFILE)"
 
 REMOTE_DIR="/root/docker/manager-server"
-JAR_PATH="soldier-admin/target/manager-server.jar"
+JAR_PATH="fs-starter-admin/target/manager-server.jar"
 
-echo ">>> 打包 soldier-admin..."
-mvn clean package -DskipTests -pl soldier-admin -am -q
+echo ">>> 打包 fs-starter-admin..."
+mvn clean package -DskipTests -pl fs-starter-admin -am -q
 
 echo ">>> 推送 $JAR_PATH 到 $SERVER:$REMOTE_DIR/"
 rsync -avz --progress "$JAR_PATH" "$SERVER:$REMOTE_DIR/manager-server.jar"

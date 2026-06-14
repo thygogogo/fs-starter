@@ -6,7 +6,7 @@ import router from '@/router'
 
 const isLocal = import.meta.env.VITE_API_LOCAL === 'true'
 
-/** 与 axios baseURL 一致；测试 https://lekai.fun/admin，生产 https://lbyz.top/admin */
+/** 本地直连 localhost:8889；非本地使用 VITE_API_BASE_URL 或 /admin 相对路径 */
 export function getApiBaseUrl(): string {
   return isLocal ? 'http://localhost:8889' : import.meta.env.VITE_API_BASE_URL || '/admin'
 }

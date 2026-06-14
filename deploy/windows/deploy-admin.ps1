@@ -21,9 +21,9 @@ Enter-ProjectRoot
 Write-Host ">>> 部署环境: $($env:DEPLOY_ENV) ($Server, spring.profiles.active=$SpringProfile)"
 
 $remoteDir = "/root/docker/manager-server"
-$jarPath = "soldier-admin/target/manager-server.jar"
+$jarPath = "fs-starter-admin/target/manager-server.jar"
 
-Invoke-MavenPackage -Module "soldier-admin"
+Invoke-MavenPackage -Module "fs-starter-admin"
 
 Write-Host ">>> 推送 $jarPath 到 ${Server}:${remoteDir}/"
 Sync-ToRemote -Source $jarPath -RemoteDest "${Server}:${remoteDir}/manager-server.jar"

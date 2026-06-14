@@ -74,14 +74,18 @@ Page({
 
   onMenuTap(e) {
     const item = e.currentTarget.dataset.item
-    if (item.needLogin && !checkLogin()) return
-    if (item.path) {
-      wx.navigateTo({ url: item.path })
+    if (item.needLogin) {
+      checkLogin().then((ok) => {
+        if (!ok) return
+        if (item.path) wx.navigateTo({ url: item.path })
+      })
+      return
     }
+    if (item.path) wx.navigateTo({ url: item.path })
   },
 
   onLoginTap() {
-    goToLoginPage({ from: 'profile' })
+    goToLoginPage('pages/profile/profile')
   },
 
   onLogoutTap() {

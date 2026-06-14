@@ -1,0 +1,28 @@
+fs:
+  infra:
+    host: ${FS_INFRA_HOST:127.0.0.1}
+
+spring:
+  datasource:
+    url: jdbc:mysql://${fs.infra.host}:3306/${FS_DB_NAME:fs_starter_db}?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: ${FS_DB_USER:root}
+    password: ${FS_DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${fs.infra.host}
+      port: ${FS_REDIS_PORT:6379}
+      password: ${FS_REDIS_PASSWORD:}
+      database: ${FS_REDIS_DB:0}
+
+minio:
+  endpoint: ${FS_MINIO_ENDPOINT:http://${fs.infra.host}:9000}
+  access-key: ${FS_MINIO_ACCESS_KEY:}
+  secret-key: ${FS_MINIO_SECRET_KEY:}
+  bucket-name: ${FS_MINIO_BUCKET:fs-starter}
+  base-url: ${FS_MINIO_BASE_URL:}
+
+wechat:
+  mock: false
+  appid: ${WECHAT_APPID:}
+  secret: ${WECHAT_SECRET:}

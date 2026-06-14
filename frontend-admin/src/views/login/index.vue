@@ -44,8 +44,8 @@ async function handleLogin() {
       <div class="login-left-content">
         <div class="login-logo">
           <StarIcon class="logo-star" />
-          <h1 class="login-title">军优享</h1>
-          <p class="login-subtitle">Military Privilege</p>
+          <h1 class="login-title">FS Starter</h1>
+          <p class="login-subtitle">Fullstack Scaffold</p>
         </div>
       </div>
       <!-- Decorative circles -->
@@ -88,10 +88,6 @@ async function handleLogin() {
               </template>
             </el-input>
           </el-form-item>
-          <div class="login-options">
-            <el-checkbox>记住我</el-checkbox>
-            <a href="#" class="forgot-link">忘记密码?</a>
-          </div>
           <el-form-item>
             <el-button
               type="primary"

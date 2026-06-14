@@ -15,6 +15,14 @@ GROUP=""
 TITLE="My App"
 APPID="wxYOUR_APPID_HERE"
 
+sed_inplace() {
+  if sed --version >/dev/null 2>&1; then
+    sed -i "$@"
+  else
+    sed -i '' "$@"
+  fi
+}
+
 usage() {
   echo "用法: $0 --name <项目名> --group <Java包名> [--title 标题] [--appid 微信AppID] [--out 输出目录]"
   exit 1
@@ -44,26 +52,29 @@ ARTIFACT="$NAME"
 
 echo ">>> 复制脚手架到 $TARGET_DIR"
 mkdir -p "$TARGET_DIR"
-rsync -a --exclude '.git' --exclude 'node_modules' --exclude 'target' --exclude 'bun.lock' "$SCAFFOLD_DIR/" "$TARGET_DIR/"
-
-PKG_ESC="${GROUP//./\\.}"
-OLD_PKG_ESC="com\\.fs\\.starter"
+rsync -a \
+  --exclude '.git' \
+  --exclude '.idea' \
+  --exclude 'node_modules' \
+  --exclude 'target' \
+  --exclude 'bun.lock' \
+  --exclude '.DS_Store' \
+  "$SCAFFOLD_DIR/" "$TARGET_DIR/"
 
 echo ">>> 替换 Java 包名: com.fs.starter -> $GROUP"
 find "$TARGET_DIR" -type f \( -name '*.java' -o -name '*.xml' -o -name '*.yml' -o -name '*.yaml' \) -print0 \
   | while IFS= read -r -d '' f; do
-    sed -i '' "s/com\.fs\.starter/${GROUP}/g" "$f"
+    sed_inplace "s/com\.fs\.starter/${GROUP}/g" "$f"
   done
 
 echo ">>> 替换 Maven 模块名: fs-starter -> $ARTIFACT"
-find "$TARGET_DIR" -type f \( -name 'pom.xml' -o -name '*.md' -o -name '*.sh' -o -name '*.ps1' \) -print0 \
+find "$TARGET_DIR" -type f \( -name 'pom.xml' -o -name '*.md' -o -name '*.sh' -o -name '*.ps1' -o -name '*.yml' -o -name '*.xml' -o -name '.env*' \) -print0 \
   | while IFS= read -r -d '' f; do
-    sed -i '' "s/fs-starter/${ARTIFACT}/g" "$f"
+    sed_inplace "s/fs-starter/${ARTIFACT}/g" "$f"
   done
 
 echo ">>> 重命名 Java 目录"
 if [[ -d "$TARGET_DIR/${ARTIFACT}-common/src/main/java/com/fs/starter" ]]; then
-  mkdir -p "$TARGET_DIR/${ARTIFACT}-common/src/main/java/${PKG_PATH}"
   for mod in common config domain mapper service admin app; do
     src="$TARGET_DIR/${ARTIFACT}-${mod}/src/main/java/com/fs/starter"
     dst="$TARGET_DIR/${ARTIFACT}-${mod}/src/main/java/${PKG_PATH}"
@@ -83,16 +94,19 @@ if [[ -d "$TARGET_DIR/${ARTIFACT}-common/src/main/java/com/fs/starter" ]]; then
 fi
 
 echo ">>> 替换前端标题与 AppID"
-sed -i '' "s/FS Starter Admin/${TITLE} Admin/g" "$TARGET_DIR/frontend-admin/index.html"
-sed -i '' "s/FS Starter/${TITLE}/g" "$TARGET_DIR/frontend-mp/app.json"
-sed -i '' "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/frontend-mp/project.config.json"
-sed -i '' "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/${ARTIFACT}-app/src/main/resources/application.yml"
+sed_inplace "s/FS Starter Admin/${TITLE} Admin/g" "$TARGET_DIR/frontend-admin/index.html"
+sed_inplace "s/FS Starter/${TITLE}/g" "$TARGET_DIR/frontend-mp/app.json"
+sed_inplace "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/frontend-mp/project.config.json"
+sed_inplace "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/${ARTIFACT}-app/src/main/resources/application.yml"
 
 echo ">>> 替换数据库名"
-sed -i '' "s/fs_starter_db/${NAME}_db/g" "$TARGET_DIR/sql/init.sql"
-find "$TARGET_DIR" -name 'application-test.yml' -print0 | while IFS= read -r -d '' f; do
-  sed -i '' "s/fs_starter_db/${NAME}_db/g" "$f"
+sed_inplace "s/fs_starter_db/${NAME}_db/g" "$TARGET_DIR/sql/init.sql"
+find "$TARGET_DIR" -name 'application-*.yml' -print0 | while IFS= read -r -d '' f; do
+  sed_inplace "s/fs_starter_db/${NAME}_db/g" "$f"
 done
+
+echo ">>> 初始化 git 仓库"
+(cd "$TARGET_DIR" && git init -q)
 
 echo ">>> 完成: $TARGET_DIR"
 echo "下一步:"

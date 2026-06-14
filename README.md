@@ -31,7 +31,14 @@ fs-starter/
 
 ## 快速开始
 
-### 1. 初始化数据库
+### 1. 启动本地基础设施（可选）
+
+```bash
+docker compose up -d
+mysql -u root -proot123 < sql/init.sql
+```
+
+### 2. 初始化数据库（无 Docker 时）
 
 ```bash
 mysql -u root -p < sql/init.sql

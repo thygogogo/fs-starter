@@ -1,19 +1,19 @@
 Page({
   data: {
-    phone: '400-888-6699',
-    email: 'contact@junyouxiang.com',
-    address: '浙江省温州市瑞安市迷彩共享空间军优享服务中心',
+    phone: '400-000-0000',
+    email: 'support@example.com',
+    address: '请在 contact-us.js 中配置您的联系信息',
     officialAccount: {
-      name: '军优享',
-      id: 'junyouxiang_official',
-      tip: '打开微信 → 搜索公众号 → 关注「军优享」'
-    }
+      name: 'YOUR_OFFICIAL_ACCOUNT',
+      id: 'your_official_account_id',
+      tip: '打开微信 → 搜索公众号 → 关注',
+    },
   },
 
   onCallPhone() {
     wx.makePhoneCall({
       phoneNumber: this.data.phone.replace(/-/g, ''),
-      fail() {}
+      fail() {},
     })
   },
 
@@ -22,7 +22,7 @@ Page({
       data: this.data.email,
       success() {
         wx.showToast({ title: '邮箱已复制', icon: 'success' })
-      }
+      },
     })
   },
 
@@ -31,16 +31,7 @@ Page({
       data: this.data.address,
       success() {
         wx.showToast({ title: '地址已复制', icon: 'success' })
-      }
+      },
     })
   },
-
-  onCopyOfficialAccount() {
-    wx.setClipboardData({
-      data: this.data.officialAccount.name,
-      success() {
-        wx.showToast({ title: '公众号名称已复制', icon: 'success' })
-      }
-    })
-  }
 })

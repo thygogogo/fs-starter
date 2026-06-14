@@ -6,11 +6,7 @@ const FORCE_SILENT_LOGIN = false
 const enableSilentLogin = FORCE_SILENT_LOGIN || envVersion !== 'develop'
 
 const LOGIN_PAGE = 'pages/login/login'
-const TAB_PAGES = [
-  'pages/index/index',
-  'pages/card/card',
-  'pages/profile/profile'
-]
+const TAB_PAGES = ['pages/index/index', 'pages/profile/profile']
 const DEFAULT_TAB = 'pages/index/index'
 
 let silentLoginPromise = null
@@ -190,10 +186,19 @@ function navigateToLogin(resolve) {
 /**
  * 直接打开登录页（不弹窗），用于「我的」页点击未登录区域
  */
-function goToLoginPage() {
+function goToLoginPage(fromRoute) {
   if (isLoggedIn()) return Promise.resolve(true)
   if (isLoginPage()) return Promise.resolve(false)
-  return new Promise((resolve) => openLoginPage(resolve))
+  const url = fromRoute
+    ? `/pages/login/login?from=${encodeURIComponent(fromRoute)}`
+    : buildLoginUrl()
+  return new Promise((resolve) => {
+    wx.navigateTo({
+      url,
+      events: { loginSuccess: () => resolve(isLoggedIn()) },
+      fail: () => resolve(false),
+    })
+  })
 }
 
 function showLoginTip() {

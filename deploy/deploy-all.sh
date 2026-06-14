@@ -18,8 +18,8 @@ usage() {
   bash deploy/deploy-all.sh [环境]
 
 环境参数（可选，默认 test）:
-  test, --test           测试环境 106.54.22.84
-  prod, production, --prod   生产环境 124.221.77.224
+  test, --test           测试环境（见 deploy/config.sh）
+  prod, production, --prod   生产环境（见 deploy/config.sh）
 
 示例:
   bash deploy/deploy-all.sh
@@ -57,9 +57,9 @@ source "$SCRIPT_DIR/config.sh"
 
 echo "========================================"
 echo "  一键部署 ($DEPLOY_ENV → $SERVER)"
-echo "  1. soldier-admin 后端"
-echo "  2. admin 前端"
-echo "  3. soldier-app 后端"
+echo "  1. fs-starter-admin 后端"
+echo "  2. frontend-admin 前端"
+echo "  3. fs-starter-app 后端"
 echo "========================================"
 
 bash "$SCRIPT_DIR/deploy-admin.sh"

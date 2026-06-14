@@ -3,7 +3,7 @@ package com.fs.starter.domain.dto;
 import lombok.Data;
 
 /**
- * 用户信息更新DTO
+ * 用户信息更新 DTO
  */
 @Data
 public class UserProfileDTO {

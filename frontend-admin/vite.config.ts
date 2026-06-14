@@ -6,9 +6,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 
 const env = loadEnv('development', process.cwd(), '')
-const proxyTarget = env.VITE_API_PROXY_TARGET || 'http://106.54.22.84:8889'
+const proxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:8889'
 
-// https://vite.dev/config/
 export default defineConfig({
   staged: {
     '*': 'vp check --fix',
@@ -38,10 +37,9 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
+      '/admin': {
         target: proxyTarget,
         changeOrigin: true,
-        rewrite: (path: string) => path.replace(/^\/api/, ''),
       },
     },
   },

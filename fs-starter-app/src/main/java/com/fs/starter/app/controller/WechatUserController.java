@@ -6,7 +6,9 @@ import com.fs.starter.domain.dto.UserProfileDTO;
 import com.fs.starter.domain.entity.WechatUser;
 import com.fs.starter.domain.vo.WxUserProfileVO;
 import com.fs.starter.service.WechatUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/app/user")
 @RequiredArgsConstructor
+@Validated
 public class WechatUserController {
 
     private final WechatUserService wechatUserService;
@@ -30,7 +33,7 @@ public class WechatUserController {
     }
 
     @PutMapping("/profile")
-    public R<WxUserProfileVO> updateProfile(@RequestBody UserProfileDTO dto) {
+    public R<WxUserProfileVO> updateProfile(@Valid @RequestBody UserProfileDTO dto) {
         Long userId = StpUtil.getLoginIdAsLong();
         return R.ok(wechatUserService.updateProfile(userId, dto));
     }

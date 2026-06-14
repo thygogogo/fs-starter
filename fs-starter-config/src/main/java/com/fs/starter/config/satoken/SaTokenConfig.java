@@ -20,7 +20,9 @@ public class SaTokenConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/actuator/**",
                         "/favicon.ico",
-                        "/error"
+                        "/error",
+                        "/admin/auth/login",
+                        "/app/wx/login"
                 );
     }
 }

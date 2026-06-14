@@ -23,9 +23,9 @@ elseif (-not $env:DEPLOY_ENV) {
 
 Write-Host "========================================"
 Write-Host "  一键部署 ($($env:DEPLOY_ENV) -> $Server)"
-Write-Host "  1. soldier-admin 后端"
-Write-Host "  2. admin 前端"
-Write-Host "  3. soldier-app 后端"
+Write-Host "  1. fs-starter-admin 后端"
+Write-Host "  2. frontend-admin 前端"
+Write-Host "  3. fs-starter-app 后端"
 Write-Host "========================================"
 
 $deployArgs = @{}

@@ -7,15 +7,24 @@ source "$SCRIPT_DIR/config.sh"
 echo ">>> 部署环境: $DEPLOY_ENV ($SERVER)"
 
 REMOTE_DIR="/root/docker/manager-frontend"
-DIST_PATH="frontend-soldier-admin/dist"
+DIST_PATH="frontend-admin/dist"
 
 echo ">>> 打包前端 admin（mode=$([ "$DEPLOY_ENV" = "prod" ] && echo production || echo test)）..."
-cd frontend-soldier-admin
-npm install
-if [ "$DEPLOY_ENV" = "prod" ]; then
-  npm run build:prod
+cd frontend-admin
+if command -v bun >/dev/null 2>&1; then
+  bun install
+  if [ "$DEPLOY_ENV" = "prod" ]; then
+    bun run build:prod
+  else
+    bun run build:test
+  fi
 else
-  npm run build:test
+  npm install
+  if [ "$DEPLOY_ENV" = "prod" ]; then
+    npm run build:prod
+  else
+    npm run build:test
+  fi
 fi
 cd ..
 

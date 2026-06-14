@@ -12,11 +12,11 @@ Enter-ProjectRoot
 Write-Host ">>> 部署环境: $($env:DEPLOY_ENV) ($Server)"
 
 $remoteDir = "/root/docker/manager-frontend"
-$distPath = "frontend-soldier-admin/dist"
+$distPath = "frontend-admin/dist"
 $buildMode = if ($env:DEPLOY_ENV -eq "prod") { "production" } else { "test" }
 
 Write-Host ">>> 打包前端 admin (mode=$buildMode)..."
-Push-Location "frontend-soldier-admin"
+Push-Location "frontend-admin"
 try {
     & npm install
     if ($LASTEXITCODE -ne 0) { throw "npm install 失败" }
