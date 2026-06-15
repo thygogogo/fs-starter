@@ -2,7 +2,8 @@
 # 从 fs-starter 脚手架复制并初始化新业务项目
 #
 # 用法:
-#   ./scripts/init-project.sh --name myapp --group com.mycompany.myapp --title "我的项目"
+#   ./scripts/init-project.sh --name sleep-guard --group com.sleep.guard --title "睡眠系统"
+# 默认输出到脚手架上一级目录（../sleep-guard），可用 --out 自定义
 #
 set -euo pipefail
 
@@ -40,7 +41,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -z "$NAME" || -z "$GROUP" ]] && usage
-[[ -z "$TARGET_DIR" ]] && TARGET_DIR="$(pwd)/$NAME"
+[[ -z "$TARGET_DIR" ]] && TARGET_DIR="$(dirname "$SCAFFOLD_DIR")/$NAME"
+if [[ "$TARGET_DIR" != /* ]]; then
+  TARGET_DIR="$(cd "$(dirname "$TARGET_DIR")" && pwd)/$(basename "$TARGET_DIR")"
+fi
 
 if [[ -e "$TARGET_DIR" ]]; then
   echo "目标目录已存在: $TARGET_DIR"
@@ -52,14 +56,25 @@ ARTIFACT="$NAME"
 
 echo ">>> 复制脚手架到 $TARGET_DIR"
 mkdir -p "$TARGET_DIR"
-rsync -a \
-  --exclude '.git' \
-  --exclude '.idea' \
-  --exclude 'node_modules' \
-  --exclude 'target' \
-  --exclude 'bun.lock' \
-  --exclude '.DS_Store' \
-  "$SCAFFOLD_DIR/" "$TARGET_DIR/"
+RSYNC_EXCLUDES=(
+  --exclude '.git'
+  --exclude '.idea'
+  --exclude '.cursor'
+  --exclude 'scripts'
+  --exclude 'node_modules'
+  --exclude 'target'
+  --exclude 'bun.lock'
+  --exclude '.DS_Store'
+)
+# 目标在脚手架内时，避免 rsync 把输出目录复制进自身
+if [[ "$TARGET_DIR" == "$SCAFFOLD_DIR"/* ]]; then
+  RSYNC_EXCLUDES+=(--exclude "${TARGET_DIR#$SCAFFOLD_DIR/}")
+fi
+# 脚手架内残留的上次生成目录（含 pom.xml）不再复制进新项目
+if [[ -f "$SCAFFOLD_DIR/$NAME/pom.xml" ]]; then
+  RSYNC_EXCLUDES+=(--exclude "$NAME")
+fi
+rsync -a "${RSYNC_EXCLUDES[@]}" "$SCAFFOLD_DIR/" "$TARGET_DIR/"
 
 echo ">>> 替换 Java 包名: com.fs.starter -> $GROUP"
 find "$TARGET_DIR" -type f \( -name '*.java' -o -name '*.xml' -o -name '*.yml' -o -name '*.yaml' \) -print0 \
@@ -72,6 +87,15 @@ find "$TARGET_DIR" -type f \( -name 'pom.xml' -o -name '*.md' -o -name '*.sh' -o
   | while IFS= read -r -d '' f; do
     sed_inplace "s/fs-starter/${ARTIFACT}/g" "$f"
   done
+
+echo ">>> 重命名 Maven 模块目录"
+for mod in common domain mapper config service admin app; do
+  src_dir="$TARGET_DIR/fs-starter-${mod}"
+  dst_dir="$TARGET_DIR/${ARTIFACT}-${mod}"
+  if [[ -d "$src_dir" ]]; then
+    mv "$src_dir" "$dst_dir"
+  fi
+done
 
 echo ">>> 重命名 Java 目录"
 if [[ -d "$TARGET_DIR/${ARTIFACT}-common/src/main/java/com/fs/starter" ]]; then
@@ -97,7 +121,10 @@ echo ">>> 替换前端标题与 AppID"
 sed_inplace "s/FS Starter Admin/${TITLE} Admin/g" "$TARGET_DIR/frontend-admin/index.html"
 sed_inplace "s/FS Starter/${TITLE}/g" "$TARGET_DIR/frontend-mp/app.json"
 sed_inplace "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/frontend-mp/project.config.json"
-sed_inplace "s/wxYOUR_APPID_HERE/${APPID}/g" "$TARGET_DIR/${ARTIFACT}-app/src/main/resources/application.yml"
+find "$TARGET_DIR" -path '*/src/main/resources/application*.yml' -print0 \
+  | while IFS= read -r -d '' f; do
+    sed_inplace "s/wxYOUR_APPID_HERE/${APPID}/g" "$f"
+  done
 
 echo ">>> 替换数据库名"
 sed_inplace "s/fs_starter_db/${NAME}_db/g" "$TARGET_DIR/sql/init.sql"
